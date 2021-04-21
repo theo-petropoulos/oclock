@@ -1,0 +1,17 @@
+minuteur
+-> flèches augmenter le temps
+-> à 0 alerte timeout
+
+chronometre
+-> bouton unique marche/arrêt
+-> bouton "tour" memorise le temps au click
+-> bouton reset
+
+reveil
+-> input heure 
+-> input texte
+-> quand horloge atteint input heure affiche input message
+-> plusieurs input possibles
+
+horloge
+-> UTC+1

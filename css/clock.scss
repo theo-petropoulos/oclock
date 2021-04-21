@@ -1,0 +1,70 @@
+*{
+    margin:0;
+    padding:0;
+}
+
+body{
+    position:relative;
+    height:100vh;
+    width:100vw;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+#clock_widget{
+    width:50%;
+    position:relative;
+    img{
+        width:100%;
+        height:max-content;
+        position:absolute;
+        top:0;
+        left:0;
+        transition:all 0.3s;
+    }
+    #ghost_clock{
+        position:relative;
+        height:auto;
+    }
+    #clock_display{
+        position:absolute;
+        background:#acacac;
+        font-family: 'Trispace', Verdana;
+        width:40%;
+        height:30%;
+        top:25%;
+        left:25%;
+        transform:skew(0deg, 9deg) translate(-25%, 25%);
+        display:flex;
+        flex-flow:column;
+        p{
+            padding: 2% 4%;
+            text-align: center;
+            &#time{
+                font-size:1.8vw;
+                #hours, #minutes{
+                    font-weight: 800;
+                }
+            }
+            &#title{
+                font-size:0.6vw;
+                font-weight:bold;
+            }
+            &#message{
+                font-size:0.75vw;
+            }
+        }
+    }
+}
+
+@keyframes wiggle{
+    0%{transform:translateX(0%)}
+    50%{transform:translateX(0.15%)}
+    100%{transform:translateX(0%)}
+}
+
+@keyframes wink{
+    0%{opacity:0}
+    100%{opacity:1}
+}

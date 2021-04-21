@@ -1,0 +1,131 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#clock_widget {
+  width: 50%;
+  position: relative;
+}
+
+#clock_widget img {
+  width: 100%;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+#clock_widget #ghost_clock {
+  position: relative;
+  height: auto;
+}
+
+#clock_widget #clock_display {
+  position: absolute;
+  background: #acacac;
+  font-family: 'Trispace', Verdana;
+  width: 40%;
+  height: 30%;
+  top: 25%;
+  left: 25%;
+  -webkit-transform: skew(0deg, 9deg) translate(-25%, 25%);
+          transform: skew(0deg, 9deg) translate(-25%, 25%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+}
+
+#clock_widget #clock_display p {
+  padding: 2% 4%;
+  text-align: center;
+}
+
+#clock_widget #clock_display p#time {
+  font-size: 1.8vw;
+}
+
+#clock_widget #clock_display p#time #hours, #clock_widget #clock_display p#time #minutes {
+  font-weight: 800;
+}
+
+#clock_widget #clock_display p#title {
+  font-size: 0.6vw;
+  font-weight: bold;
+}
+
+#clock_widget #clock_display p#message {
+  font-size: 0.75vw;
+}
+
+@-webkit-keyframes wiggle {
+  0% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+  50% {
+    -webkit-transform: translateX(0.15%);
+            transform: translateX(0.15%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+  50% {
+    -webkit-transform: translateX(0.15%);
+            transform: translateX(0.15%);
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+  }
+}
+
+@-webkit-keyframes wink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes wink {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/*# sourceMappingURL=clock.css.map */
