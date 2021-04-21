@@ -169,7 +169,12 @@ function button_timer(){
 function button_chrono(){
     $("#title").html('Chronomètre');
     $("#message").html('Flèche gauche -> Enregistrer le temps | Bouton central -> Marche / Arrêt | Flèche droite -> Afficher les temps');
-    $('#hours').add($('#minutes')).add($('#seconds')).html('00');
+    if(chrono!=='start' && chrono!=='paused'){
+        $('#hours').add($('#minutes')).add($('#seconds')).html('00');
+    }
+    else if(chrono=='start' || chrono=='paused'){
+        $('#hours').html(chrono_hours); $('#minutes').html(chrono_minutes); $('#seconds').html(chrono_seconds);
+    }
     check_width($("#message"));
 }
 
@@ -214,6 +219,7 @@ function button_circle(){
         case 'chrono':
             if(chrono=='paused'){
                 chrono_interval=setInterval(chrono_start, 1000);
+                chrono='start';
             }
             else if(chrono!=='start'){
                 chrono_seconds=$('#seconds').html();
@@ -344,9 +350,11 @@ function chrono_start(){
             }
         }
     }
-    $('#seconds').html(chrono_seconds);
-    $('#minutes').html(chrono_minutes);
-    $('#hours').html(chrono_hours);
+    if(currClock=='chrono'){
+        $('#seconds').html(chrono_seconds);
+        $('#minutes').html(chrono_minutes);
+        $('#hours').html(chrono_hours);
+    }
 }
 
 function changeName(name){
