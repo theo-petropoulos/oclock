@@ -32,11 +32,13 @@ body{
             width:max-content;
             top:0;
             left:0;
+            opacity:0;
+            animation: get_in_text 0.9s 0.7s ease forwards;
         }
     }
     .giant{
         opacity:0;
-        animation: get_in_text 0.9s 0s ease-out forwards;
+        animation: get_in_text 0.9s 0.3s ease forwards;
     }
 }
 
@@ -46,7 +48,7 @@ body{
     top:30%;
     right:20%;
     opacity:0;
-    animation:get_in_clock 1s 0.2s ease-out forwards;
+    animation:get_in_clock 0.9s 0s ease forwards;
     img{
         width:100%;
         height:max-content;
@@ -118,13 +120,13 @@ body{
 }
 
 @keyframes get_in_text{
-    0%{transform:translateX(-150%);opacity:0;}
+    0%{transform:translateY(-150%);opacity:0;}
     30%{opacity:0;}
-    100%{transform:translateX(0%);opacity:1;}
+    100%{transform:translateY(0%);opacity:1;}
 }
 
 @keyframes get_in_clock{
-    0%{transform:translate(200%,-30%);opacity:0;}
+    0%{transform:translate(20%,-150%);opacity:0;}
     30%{opacity:0;}
     100%{transform:translate(20%,-30%);opacity:1;}
 }

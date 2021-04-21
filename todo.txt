@@ -1,3 +1,5 @@
+DESIGN CHROME
+
 XX minuteur
 XX -> flèches augmenter le temps
 XX -> input clavier

@@ -48,12 +48,15 @@ body {
   width: max-content;
   top: 0;
   left: 0;
+  opacity: 0;
+  -webkit-animation: get_in_text 0.9s 0.7s ease forwards;
+          animation: get_in_text 0.9s 0.7s ease forwards;
 }
 
 #giant_text .giant {
   opacity: 0;
-  -webkit-animation: get_in_text 0.9s 0s ease-out forwards;
-          animation: get_in_text 0.9s 0s ease-out forwards;
+  -webkit-animation: get_in_text 0.9s 0.3s ease forwards;
+          animation: get_in_text 0.9s 0.3s ease forwards;
 }
 
 #clock_widget {
@@ -62,8 +65,8 @@ body {
   top: 30%;
   right: 20%;
   opacity: 0;
-  -webkit-animation: get_in_clock 1s 0.2s ease-out forwards;
-          animation: get_in_clock 1s 0.2s ease-out forwards;
+  -webkit-animation: get_in_clock 0.9s 0s ease forwards;
+          animation: get_in_clock 0.9s 0s ease forwards;
 }
 
 #clock_widget img {
@@ -249,40 +252,40 @@ body {
 
 @-webkit-keyframes get_in_text {
   0% {
-    -webkit-transform: translateX(-150%);
-            transform: translateX(-150%);
+    -webkit-transform: translateY(-150%);
+            transform: translateY(-150%);
     opacity: 0;
   }
   30% {
     opacity: 0;
   }
   100% {
-    -webkit-transform: translateX(0%);
-            transform: translateX(0%);
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
     opacity: 1;
   }
 }
 
 @keyframes get_in_text {
   0% {
-    -webkit-transform: translateX(-150%);
-            transform: translateX(-150%);
+    -webkit-transform: translateY(-150%);
+            transform: translateY(-150%);
     opacity: 0;
   }
   30% {
     opacity: 0;
   }
   100% {
-    -webkit-transform: translateX(0%);
-            transform: translateX(0%);
+    -webkit-transform: translateY(0%);
+            transform: translateY(0%);
     opacity: 1;
   }
 }
 
 @-webkit-keyframes get_in_clock {
   0% {
-    -webkit-transform: translate(200%, -30%);
-            transform: translate(200%, -30%);
+    -webkit-transform: translate(20%, -150%);
+            transform: translate(20%, -150%);
     opacity: 0;
   }
   30% {
@@ -297,8 +300,8 @@ body {
 
 @keyframes get_in_clock {
   0% {
-    -webkit-transform: translate(200%, -30%);
-            transform: translate(200%, -30%);
+    -webkit-transform: translate(20%, -150%);
+            transform: translate(20%, -150%);
     opacity: 0;
   }
   30% {

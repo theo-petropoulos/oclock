@@ -1,9 +1,10 @@
 window.currClock='clock';
 window.currTimerInput='';
 window.counter='';
-window.timer_hours=0;
-window.timer_minutes=0;
+window.chrono='';
 window.timer_seconds=0;
+window.timer_minutes=0;
+window.timer_hours=0;
 
 $(window).on('load', function(){
     $('#clock_widget').css({
@@ -211,8 +212,24 @@ function button_circle(){
             button_timer();
             break;
         case 'chrono':
-            chrono_start();
-            chrono_interval=setInterval(countdown, 1000);
+            if(chrono=='paused'){
+                chrono_interval=setInterval(chrono_start, 1000);
+            }
+            else if(chrono!=='start'){
+                chrono_seconds=$('#seconds').html();
+                chrono_minutes=$('#minutes').html();
+                chrono_hours=$('#hours').html();
+                // if(chrono_minutes<10 && chrono_minutes>=0) chrono_minutes= '0' + chrono_minutes;
+                // if(chrono_hours<10 && chrono_hours>=0) chrono_hours= '0' + chrono_hours;
+                // if(chrono_seconds<10 && chrono_seconds>=0) chrono_seconds= '0' + chrono_seconds;
+                chrono='start';
+                chrono_start();
+                chrono_interval=setInterval(chrono_start, 1000);
+            }
+            else if(chrono=='start'){
+                chrono='paused';
+                clearInterval(chrono_interval);
+            }
             break;
         case 'alarm':
 
@@ -309,6 +326,27 @@ function countdown(){
             $('#hours').html(timer_hours);
         }
     }
+}
+
+function chrono_start(){
+    chrono_seconds++;
+    if(chrono_seconds<10 && chrono_seconds>=0) chrono_seconds= '0' + chrono_seconds;
+    if(chrono_seconds>59){
+        chrono_seconds='00';
+        chrono_minutes++;
+        if(chrono_minutes<10 && chrono_minutes>=0) chrono_minutes= '0' + chrono_minutes;
+        if(chrono_minutes>59){
+            chrono_minutes='00';
+            chrono_hours++;
+            if(chrono_hours<10 && chrono_hours>=0) chrono_hours= '0' + chrono_hours;
+            if(chrono_hours>23){
+                chrono_hours='00';
+            }
+        }
+    }
+    $('#seconds').html(chrono_seconds);
+    $('#minutes').html(chrono_minutes);
+    $('#hours').html(chrono_hours);
 }
 
 function changeName(name){
