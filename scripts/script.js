@@ -142,6 +142,7 @@ function clog(x){
 }
 
 function button_clock(){
+    currTimerInput='';
     $("#title").html('Horloge');
     $("#message").html('Aucun réveil programmé');
     clock();
@@ -248,6 +249,7 @@ function button_arrow(dir){
                     if(currTimerInput.html()>59) currTimerInput.html("00");
                 }
             }
+            button_timer();
             break;
         case 'chrono':
             
@@ -257,7 +259,6 @@ function button_arrow(dir){
             break;
         default:break;
     }
-    button_timer();
 }
 
 function clock(){

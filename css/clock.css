@@ -16,6 +16,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  overflow: hidden;
 }
 
 #giant_text {
@@ -49,13 +50,20 @@ body {
   left: 0;
 }
 
+#giant_text .giant {
+  opacity: 0;
+  -webkit-animation: get_in_text 0.9s 0s ease-out forwards;
+          animation: get_in_text 0.9s 0s ease-out forwards;
+}
+
 #clock_widget {
   width: 50%;
   position: absolute;
   top: 30%;
   right: 20%;
-  -webkit-transform: translate(20%, -30%);
-          transform: translate(20%, -30%);
+  opacity: 0;
+  -webkit-animation: get_in_clock 1s 0.2s ease-out forwards;
+          animation: get_in_clock 1s 0.2s ease-out forwards;
 }
 
 #clock_widget img {
@@ -236,6 +244,70 @@ body {
   100% {
     -webkit-transform: translateX(-110%);
             transform: translateX(-110%);
+  }
+}
+
+@-webkit-keyframes get_in_text {
+  0% {
+    -webkit-transform: translateX(-150%);
+            transform: translateX(-150%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@keyframes get_in_text {
+  0% {
+    -webkit-transform: translateX(-150%);
+            transform: translateX(-150%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0%);
+            transform: translateX(0%);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes get_in_clock {
+  0% {
+    -webkit-transform: translate(200%, -30%);
+            transform: translate(200%, -30%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translate(20%, -30%);
+            transform: translate(20%, -30%);
+    opacity: 1;
+  }
+}
+
+@keyframes get_in_clock {
+  0% {
+    -webkit-transform: translate(200%, -30%);
+            transform: translate(200%, -30%);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translate(20%, -30%);
+            transform: translate(20%, -30%);
+    opacity: 1;
   }
 }
 /*# sourceMappingURL=clock.css.map */

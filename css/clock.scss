@@ -10,6 +10,7 @@ body{
     display:flex;
     justify-content: center;
     align-items:center;
+    overflow: hidden;
 }
 
 #giant_text{
@@ -33,6 +34,10 @@ body{
             left:0;
         }
     }
+    .giant{
+        opacity:0;
+        animation: get_in_text 0.9s 0s ease-out forwards;
+    }
 }
 
 #clock_widget{
@@ -40,7 +45,8 @@ body{
     position:absolute;
     top:30%;
     right:20%;
-    transform:translate(20%,-30%);
+    opacity:0;
+    animation:get_in_clock 1s 0.2s ease-out forwards;
     img{
         width:100%;
         height:max-content;
@@ -109,4 +115,16 @@ body{
 @keyframes slide_to_left{
     0%{transform:translateX(40%)}
     100%{transform:translateX(-110%)}
+}
+
+@keyframes get_in_text{
+    0%{transform:translateX(-150%);opacity:0;}
+    30%{opacity:0;}
+    100%{transform:translateX(0%);opacity:1;}
+}
+
+@keyframes get_in_clock{
+    0%{transform:translate(200%,-30%);opacity:0;}
+    30%{opacity:0;}
+    100%{transform:translate(20%,-30%);opacity:1;}
 }
