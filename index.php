@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="css/clock.css?v=<?php echo time(); ?>">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Trispace:wght@200&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Orelega+One&display=swap" rel="stylesheet"> 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://kit.fontawesome.com/9ddb75d515.js" crossorigin="anonymous"></script>
     <script src="node_modules\image-map-resizer\js\imageMapResizer.min.js"></script>
@@ -20,6 +21,12 @@
 </head>
 
 <body>
+    <section id="giant_text">
+        <p class="giant">Ceci est</p>
+        <p id="text_twins">
+            <span id="text_one">une horloge</span>
+        </p>
+    </section>
     <section id="clock_widget">
         <div id="clock_display">
             <p id="breaker"></p>

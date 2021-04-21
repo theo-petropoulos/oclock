@@ -1,6 +1,7 @@
-minuteur
--> flèches augmenter le temps
--> à 0 alerte timeout
+XX minuteur
+XX -> flèches augmenter le temps
+XX -> input clavier
+XX -> à 0 alerte timeout
 
 chronometre
 -> bouton unique marche/arrêt

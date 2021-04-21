@@ -12,9 +12,35 @@ body{
     align-items:center;
 }
 
+#giant_text{
+    position:absolute;
+    top:50%;
+    left:15%;
+    transform:translate(-15%,-50%);
+    color:rgb(170, 170, 170);
+    font-size:8vw;
+    font-family: 'Orelega One', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    p{
+        margin:0;
+        position:relative;
+        pointer-events: none;
+        user-select: none;
+        span{
+            color:rgb(97, 97, 97);
+            position:absolute;
+            width:max-content;
+            top:0;
+            left:0;
+        }
+    }
+}
+
 #clock_widget{
     width:50%;
-    position:relative;
+    position:absolute;
+    top:30%;
+    right:20%;
+    transform:translate(20%,-30%);
     img{
         width:100%;
         height:max-content;
@@ -31,13 +57,14 @@ body{
         position:absolute;
         background:#acacac;
         font-family: 'Trispace', Verdana;
-        width:40%;
-        height:30%;
-        top:25%;
-        left:25%;
-        transform:skew(0deg, 9deg) translate(-25%, 25%);
+        width:28%;
+        height:20%;
+        top:42%;
+        left:30%;
+        transform:skew(0deg, 9deg) translate(-30%, -42%);
         display:flex;
         flex-flow:column;
+        overflow:hidden;
         p{
             padding: 2% 4%;
             text-align: center;
@@ -67,4 +94,19 @@ body{
 @keyframes wink{
     0%{opacity:0}
     100%{opacity:1}
+}
+
+@keyframes godown{
+    0%{transform:translateY(-100%);opacity:0;}
+    100%{transform:translateY(0%);opacity:1;}
+}
+
+@keyframes goout{
+    0%{transform:translateY(0%);opacity:1;}
+    100%{transform:translateY(100%);opacity:0;}
+}
+
+@keyframes slide_to_left{
+    0%{transform:translateX(40%)}
+    100%{transform:translateX(-110%)}
 }
