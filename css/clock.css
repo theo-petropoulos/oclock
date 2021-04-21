@@ -71,9 +71,6 @@ body {
 
 #clock_widget img {
   width: 100%;
-  height: -webkit-max-content;
-  height: -moz-max-content;
-  height: max-content;
   position: absolute;
   top: 0;
   left: 0;
