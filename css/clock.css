@@ -110,19 +110,42 @@ body {
 }
 
 #clock_widget #alarm_text {
-  z-index: 4;
   position: absolute;
-  right: 25%;
-  bottom: 25%;
-  color: #aaaaaa;
-  -webkit-transform: skew(-55deg, 9deg) translate(25%, 25%);
-          transform: skew(-55deg, 9deg) translate(25%, 25%);
+  right: 35%;
+  bottom: 28%;
+  -webkit-transform: skew(-55deg, 9deg) translate(35%, 28%);
+          transform: skew(-55deg, 9deg) translate(35%, 28%);
 }
 
 #clock_widget #alarm_text p {
+  position: absolute;
+  top: 0;
+  left: 0;
   font-size: 1.5vw;
+  font-weight: 800;
+  color: #acacac;
   font-family: 'Trispace', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  opacity: 1;
+  opacity: 0;
+}
+
+#clock_widget #dring_text {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  color: #acacac;
+  -webkit-transform: translate(-20%, 20%);
+          transform: translate(-20%, 20%);
+}
+
+#clock_widget #dring_text p {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 2vw;
+  font-family: 'Orelega One', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
 }
 
 #clock_widget #clock_display {
@@ -165,6 +188,10 @@ body {
 
 #clock_widget #clock_display p#message {
   font-size: 0.75vw;
+}
+
+.done {
+  text-decoration: line-through;
 }
 
 @-webkit-keyframes wiggle {

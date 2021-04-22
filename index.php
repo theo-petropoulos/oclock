@@ -39,8 +39,8 @@
             <p id="title">Horloge</p>
             <p id="message">Aucun réveil programmé</p>
         </div>
-        <section id="alarm_text">
-        </section>
+        <section id="alarm_text"></section>
+        <section id="dring_text"></section>
         <img id="button_clock" src="assets/images/button_1.png" usemap="#image-map">
         <img id="button_timer" src="assets/images/button_2.png" usemap="#image-map">
         <img id="button_chrono" src="assets/images/button_3.png" usemap="#image-map">

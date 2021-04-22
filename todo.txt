@@ -1,6 +1,9 @@
 XX FIX OVERFLOW / ANIMATION TRIGGER
 XX DESIGN CHROME
 
+FIX DRING TEXT SLIDE
+CHECK SWAP MENU
+
 XX minuteur
 XX -> flèches augmenter le temps
 XX -> input clavier
@@ -11,11 +14,11 @@ XX -> bouton unique marche/arrêt
 XX -> bouton "tour" memorise le temps au click
 XX -> bouton reset
 
-reveil
--> input heure 
--> input texte
+XX reveil
+XX -> input heure 
+XX -> input texte
 -> quand horloge atteint input heure affiche input message
--> plusieurs input possibles
+XX -> plusieurs input possibles
 
 horloge
 -> UTC+1
