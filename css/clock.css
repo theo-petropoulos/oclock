@@ -109,9 +109,20 @@ body {
   transition: all 0.3s;
 }
 
-#clock_widget #ghost_clock {
-  position: relative;
-  height: auto;
+#clock_widget #alarm_text {
+  z-index: 4;
+  position: absolute;
+  right: 25%;
+  bottom: 25%;
+  color: #aaaaaa;
+  -webkit-transform: skew(-55deg, 9deg) translate(25%, 25%);
+          transform: skew(-55deg, 9deg) translate(25%, 25%);
+}
+
+#clock_widget #alarm_text p {
+  font-size: 1.5vw;
+  font-family: 'Trispace', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  opacity: 1;
 }
 
 #clock_widget #clock_display {
@@ -327,6 +338,24 @@ body {
     -webkit-transform: translateX(-100%);
             transform: translateX(-100%);
     opacity: 0;
+  }
+}
+
+@-webkit-keyframes fade_in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade_in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

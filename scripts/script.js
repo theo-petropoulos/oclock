@@ -1,13 +1,14 @@
 window.currClock='clock';
-window.currTimerInput='';
+window.currTimerInput=window.currAlarmInput='';
 window.counter='';
 window.chrono='';
-window.timer_seconds=0;
-window.timer_minutes=0;
-window.timer_hours=0;
-window.timer_array=[];
+window.alarm='';
+window.timer_seconds=window.timer_minutes=window.timer_hours=0;
+window.alarm_seconds=window.alarm_minutes=window.alarm_hours=0;
+window.timer_array=window.alarm_array=[];
 window.prevent='none';
 
+//Send exact height for responsive purpose
 $(window).on('load', function(){
     $('#clock_widget').css({
         "height":$('#clock_body').css('height')
@@ -17,17 +18,7 @@ $(window).on('load', function(){
             "height":$('#clock_body').css('height')
         });
     });
-    // const targetNode = document.getElementById('message');
-    // const config = { attributes: true, childList: true, subtree: true };
-    // const callback = function(mutationsList, observer) {
-    //     for(const mutation of mutationsList) {
-    //         if (mutation.type === 'childList') {
-    //             check_width($("#message"));
-    //         }
-    //     }
-    // };
-    // const observer = new MutationObserver(callback);
-    // observer.observe(targetNode, config);
+    
 });
 
 $(function() {
@@ -70,27 +61,34 @@ $(function() {
 
         'click':function(e){
             e.preventDefault();
-            $(currTimerInput).add($("#message")).css('animation', 'none');
+            $(currTimerInput).add($("#message")).add($(currAlarmInput)).css('animation', 'none');
             $("#message").css('width', 'initial');
 
             $('#' + $(this).attr('title')).css({
                 "animation":"none",
                 "transition":"all 0.3s",
             });
+            //If the button is a menu button
             if(!$(this).hasClass('diff_transform')){
+                //Play sound
                 click.currentTime=0;
                 click.play();
+
+                //Animation
                 $('#' + $(this).attr('title')).css({
                     "transform":"translate(1%, -1%)"
                 });
 
-                let tempClock=currClock;      
+                //Used to reset an item
+                let tempClock=currClock;
+                //Used to define current mode
                 currClock=$(this).attr('title').replace('button_','');
+                //Reset the timer if the timer is paused & is already on timer mode
                 if(counter=='paused' && currClock=='timer' && tempClock=='timer'){
                     timer_seconds=timer_minutes=timer_hours=0;
                     currTimerInput='';
                 }
-
+                //Reset the chrono and empty stored timestamps
                 if(chrono=='paused' && currClock=='chrono' && tempClock=='chrono'){
                     prevent='empty_chrono';
                     $(timer_array).each(function(index, value){
@@ -104,7 +102,7 @@ $(function() {
                     });
                     chrono_seconds=chrono_minutes=chrono_hours='00';
                 }
-
+                //Hide stored timestamps if current mode isn't chrono
                 if(timer_array.length>0 && currClock!=='chrono'){
                     $(timer_array).each(function(index, value){
                         setTimeout(() => {
@@ -113,9 +111,13 @@ $(function() {
                     });
                 }
             }
+            //If the button is a nav button
             else{
+                //Play sound
                 light_click.currentTime=0;
                 light_click.play();
+
+                //Animation
                 $('#' + $(this).attr('title')).css({
                     "transform":"translate(1%, -0.5%)"
                 });
@@ -129,6 +131,7 @@ $(function() {
                     $(this).trigger('mouseenter');
                 }, 200);
             }, 240);
+                // End Animation
 
             //Change text based on click
             switch($(this).attr('title')){
@@ -152,22 +155,14 @@ $(function() {
         }
     });
 
-    //User' keyboard input 
+    //User's keyboard input 
     $(document).on('keypress', function(e){
         e.preventDefault();
         if(currClock=='timer' && currTimerInput !==1 && currTimerInput !==''){
-            let input=String.fromCharCode(e.which);
-            if($.isNumeric(input)){
-                if(currTimerInput.html().length==2 || $(currTimerInput).html().length<1) $(currTimerInput).html(input);
-                else if($(currTimerInput).html().length==1){
-                    $(currTimerInput).append(input);
-                    if($(currTimerInput).is('#hours') && $(currTimerInput).html()>23) $(currTimerInput).html('23');
-                    else if($(currTimerInput).html()>59) $(currTimerInput).html('59');
-                }
-            }
-            else if(e.which=='13'){
-                $("area[title|='button_circle']").trigger('click');
-            }
+            sendKeyPress(e.which, currTimerInput);
+        }
+        else if(currClock=='alarm' && currAlarmInput !==1 && currAlarmInput !==''){
+            sendKeyPress(e.which, currAlarmInput);
         }
     });
 });
@@ -204,6 +199,8 @@ function button_timer(){
 
 function button_chrono(){
     currTimerInput='';
+    $("#title").html('Chronomètre');
+    $("#message").html('<i class="fas fa-caret-left"></i> Enregistrer le temps | <i class="far fa-circle"></i> Marche / Arrêt | <i class="fas fa-caret-right"></i> Afficher les temps');
     if(timer_array.length>0 && prevent!=='empty_chrono'){
         $(timer_array).each(function(index, value){
             setTimeout(() => {
@@ -212,8 +209,6 @@ function button_chrono(){
         });
     }
     prevent='none';
-    $("#title").html('Chronomètre');
-    $("#message").html('<i class="fas fa-caret-left"></i> Enregistrer le temps | <i class="far fa-circle"></i> Marche / Arrêt | <i class="fas fa-caret-right"></i> Afficher les temps');
     if(chrono!=='start' && chrono!=='paused'){
         $('#hours').add($('#minutes')).add($('#seconds')).html('00');
     }
@@ -224,7 +219,30 @@ function button_chrono(){
 }
 
 function button_alarm(){
+    currTimerInput='';
     $("#title").html('Réveil');
+    if(alarm_seconds==0 && alarm_minutes==0 && alarm_hours==0 && alarm!=='set'){
+        $("#message").html('Choisir l\'heure');
+        if(currAlarmInput==''){
+            currAlarmInput=$('#hours');
+            $('#hours').add($('#minutes')).add($('#seconds')).html('00');
+        }
+        $(currAlarmInput).css('animation','wink 0.8s 0s linear infinite alternate-reverse');
+    }
+    else if(alarm=='set'){
+        alarm='';
+        $("#alarm_text").prepend("<p id='alarm_p" + alarm_array.length + "'>" + alarm_hours + ":" + alarm_minutes + ":" + alarm_seconds + "</p>");
+        $("#alarm_p" + alarm_array.length).animate({
+            top: '+=150%',
+            right: '+=150%'
+        });
+        $("#alarm_p" + alarm_array.length).css("animation","fade_in 0.6s ease forwards");
+        alarm_seconds=alarm_minutes=alarm_hours=0;
+        currAlarmInput=$('#hours');
+        $('#hours').add($('#minutes')).add($('#seconds')).html('00');
+        $(currAlarmInput).css('animation','wink 0.8s 0s linear infinite alternate-reverse');
+        $("#message").html('Alarme enregistrée'); 
+    }
 }
 
 function button_circle(){
@@ -280,7 +298,28 @@ function button_circle(){
             }
             break;
         case 'alarm':
-
+            if($(currAlarmInput).attr('id')==$('#hours').attr('id')){
+                if($('#hours').html().length==1) $('#hours').prepend('0');
+                currAlarmInput=$('#minutes');
+            }
+            else if($(currAlarmInput).attr('id')==$('#minutes').attr('id')){
+                if($('#minutes').html().length==1) $('#minutes').prepend('0');
+                currAlarmInput=$('#seconds');
+            }
+            else if($(currAlarmInput).attr('id')==$('#seconds').attr('id')){
+                $("#message").html('C\'est parti !');
+                alarm_seconds=$('#seconds').html();
+                alarm_minutes=$('#minutes').html();
+                alarm_hours=$('#hours').html();
+                let alarm_object={
+                    'seconds' : alarm_seconds,
+                    'minutes' : alarm_minutes,
+                    'hours' : alarm_hours
+                }
+                alarm_array.push(alarm_object);
+                alarm='set';
+            }
+            button_alarm();
             break;
         default:break;
     }
@@ -441,6 +480,22 @@ function changeName(name){
             $("#text_new").prop('id', 'text_one');
         }, 1000);
     }
+}
+
+function sendKeyPress(key, tag){
+    let input=String.fromCharCode(key);
+    if($.isNumeric(input)){
+        if(tag.html().length==2 || $(tag).html().length<1) $(tag).html(input);
+        else if($(tag).html().length==1){
+            $(tag).append(input);
+            if($(tag).is('#hours') && $(tag).html()>23) $(tag).html('23');
+            else if($(tag).html()>59) $(tag).html('59');
+        }
+    }
+    else if(key=='13'){
+        $("area[title|='button_circle']").trigger('click');
+    }
+    return 1;
 }
 
 function check_width(text){

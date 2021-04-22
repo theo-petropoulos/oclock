@@ -75,15 +75,24 @@ body{
     animation:get_in_clock 0.9s 0s ease forwards;
     img{
         width:100%;
-        // height:max-content;
         position:absolute;
         top:0;
         left:0;
         transition:all 0.3s;
     }
-    #ghost_clock{
-        position:relative;
-        height:auto;
+    #alarm_text{
+        z-index:4;
+        position:absolute;
+        right:25%;
+        bottom:25%;
+        color:rgb(170, 170, 170);
+        transform:skew(-55deg,9deg) translate(25%,25%);
+        p{
+            font-size:1.5vw;
+            font-family:'Trispace', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            opacity:1;
+            
+        }
     }
     #clock_display{
         position:absolute;
@@ -151,6 +160,11 @@ body{
 @keyframes fade_out{
     0%{transform:translateX(0%); opacity:1;}
     100%{transform:translateX(-100%); opacity:0;}
+}
+
+@keyframes fade_in{
+    0%{opacity:0;}
+    100%{opacity:1}
 }
 
 @keyframes disappear{
