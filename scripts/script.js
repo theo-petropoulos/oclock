@@ -5,6 +5,8 @@ window.chrono='';
 window.timer_seconds=0;
 window.timer_minutes=0;
 window.timer_hours=0;
+window.timer_array=[];
+window.prevent='none';
 
 $(window).on('load', function(){
     $('#clock_widget').css({
@@ -15,6 +17,17 @@ $(window).on('load', function(){
             "height":$('#clock_body').css('height')
         });
     });
+    // const targetNode = document.getElementById('message');
+    // const config = { attributes: true, childList: true, subtree: true };
+    // const callback = function(mutationsList, observer) {
+    //     for(const mutation of mutationsList) {
+    //         if (mutation.type === 'childList') {
+    //             check_width($("#message"));
+    //         }
+    //     }
+    // };
+    // const observer = new MutationObserver(callback);
+    // observer.observe(targetNode, config);
 });
 
 $(function() {
@@ -37,7 +50,7 @@ $(function() {
     //Do not show pointer on non-clickable elements
     $('.clock_screen').on('mouseenter', function(){
         $(this).css('cursor','initial');
-    })
+    });
 
     //Functions depending on user's actions
     $('area').not('.clock_screen').on({
@@ -58,9 +71,8 @@ $(function() {
         'click':function(e){
             e.preventDefault();
             $(currTimerInput).add($("#message")).css('animation', 'none');
-            $("#message").css('width', 'initial');    
+            $("#message").css('width', 'initial');
 
-            // ANIMATION //
             $('#' + $(this).attr('title')).css({
                 "animation":"none",
                 "transition":"all 0.3s",
@@ -78,7 +90,28 @@ $(function() {
                     timer_seconds=timer_minutes=timer_hours=0;
                     currTimerInput='';
                 }
-                
+
+                if(chrono=='paused' && currClock=='chrono' && tempClock=='chrono'){
+                    prevent='empty_chrono';
+                    $(timer_array).each(function(index, value){
+                        setTimeout(() => {
+                            $("#p" + index).css("animation", "disappear 0.8s ease forwards");
+                            if((index + 1)==timer_array.length) setTimeout(() => {
+                                $("#dynamic_text").empty();
+                                timer_array=[];
+                            }, 200);
+                        }, index*90);
+                    });
+                    chrono_seconds=chrono_minutes=chrono_hours='00';
+                }
+
+                if(timer_array.length>0 && currClock!=='chrono'){
+                    $(timer_array).each(function(index, value){
+                        setTimeout(() => {
+                            $("#p" + index).css("animation", "fade_out 0.7s ease forwards");
+                        }, index*70);
+                    });
+                }
             }
             else{
                 light_click.currentTime=0;
@@ -97,6 +130,7 @@ $(function() {
                 }, 200);
             }, 240);
 
+            //Change text based on click
             switch($(this).attr('title')){
                 case 'button_clock':
                     changeName('une horloge');
@@ -112,8 +146,8 @@ $(function() {
                     break;
                 default:break;
             }
-            // END ANIMATION //
 
+            //Call function named after the title
             window[$(this).attr('title')]();
         }
     });
@@ -146,6 +180,7 @@ function button_clock(){
     currTimerInput='';
     $("#title").html('Horloge');
     $("#message").html('Aucun réveil programmé');
+    check_width($("#message"));
     clock();
     setInterval(clock, 1000);
 }
@@ -162,13 +197,23 @@ function button_timer(){
     }
     else{
         $("#hours").html(timer_hours); $("#minutes").html(timer_minutes); $("#seconds").html(timer_seconds);
-        $("#message").html('Tic tac tic tac');
+        $("#message").html('<i class="far fa-circle"></i> Marche / Arrêt | <i class="far fa-circle"></i> + <i class="far fa-square"></i> Réinitialiser');
     }
+    check_width($("#message"));
 }
 
 function button_chrono(){
+    currTimerInput='';
+    if(timer_array.length>0 && prevent!=='empty_chrono'){
+        $(timer_array).each(function(index, value){
+            setTimeout(() => {
+                $("#p" + index).css("animation", "slide_to_right 0.9s ease forwards");
+            }, index*120);
+        });
+    }
+    prevent='none';
     $("#title").html('Chronomètre');
-    $("#message").html('Flèche gauche -> Enregistrer le temps | Bouton central -> Marche / Arrêt | Flèche droite -> Afficher les temps');
+    $("#message").html('<i class="fas fa-caret-left"></i> Enregistrer le temps | <i class="far fa-circle"></i> Marche / Arrêt | <i class="fas fa-caret-right"></i> Afficher les temps');
     if(chrono!=='start' && chrono!=='paused'){
         $('#hours').add($('#minutes')).add($('#seconds')).html('00');
     }
@@ -225,9 +270,6 @@ function button_circle(){
                 chrono_seconds=$('#seconds').html();
                 chrono_minutes=$('#minutes').html();
                 chrono_hours=$('#hours').html();
-                // if(chrono_minutes<10 && chrono_minutes>=0) chrono_minutes= '0' + chrono_minutes;
-                // if(chrono_hours<10 && chrono_hours>=0) chrono_hours= '0' + chrono_hours;
-                // if(chrono_seconds<10 && chrono_seconds>=0) chrono_seconds= '0' + chrono_seconds;
                 chrono='start';
                 chrono_start();
                 chrono_interval=setInterval(chrono_start, 1000);
@@ -242,6 +284,7 @@ function button_circle(){
             break;
         default:break;
     }
+    check_width($("#message"));
 }
 
 function button_left(){
@@ -275,13 +318,27 @@ function button_arrow(dir){
             button_timer();
             break;
         case 'chrono':
-            
+            if(chrono=='start' || chrono=='paused'){
+                if(dir=='left'){
+                    if(timer_array.length>6) $("#message").html("La mémoire est pleine.");
+                    else timer_array.push(chrono_hours + ':' + chrono_minutes + ':' + chrono_seconds);
+                }
+                else if(dir=='right'){
+                    $("#dynamic_text").empty();
+                    $(timer_array).each(function(index, value){
+                        setTimeout(() => {
+                            $("#dynamic_text").append('<p id="p' + index + '">' + value + '</p>');
+                        }, index*120);
+                    });
+                }
+            }
             break;
         case 'alarm':
         
             break;
         default:break;
     }
+    check_width($("#message"));
 }
 
 function clock(){
@@ -387,7 +444,7 @@ function changeName(name){
 }
 
 function check_width(text){
-    if(text.prop('scrollWidth') > text.height()){
+    if(text.html().length > 40){
         text.css({
             "width":"max-content",
             "animation":"slide_to_left 18s 0s steps(70,end) infinite"

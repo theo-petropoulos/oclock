@@ -13,11 +13,21 @@ body{
     overflow: hidden;
 }
 
+#block_screen{
+    height:100%;
+    width:100%;
+    z-index:8;
+    background:white;
+    display:none;
+    justify-content: center;
+    align-items:center;
+}
+
 #giant_text{
     position:absolute;
     top:50%;
-    left:15%;
-    transform:translate(-15%,-50%);
+    left:13%;
+    transform:translate(-13%,-50%);
     color:rgb(170, 170, 170);
     font-size:8vw;
     font-family: 'Orelega One', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -42,12 +52,26 @@ body{
     }
 }
 
+#dynamic_text{
+    position:absolute;
+    right:7.5%;
+    top:25%;
+    font-size:3vw;
+    font-family: 'Orelega One', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:rgb(170, 170, 170);
+    p{
+        transform:translateY(-25%);
+        animation:slide_to_right 0.8s 0s ease forwards;
+    }
+}
+
 #clock_widget{
+    opacity:0;
+    visibility: hidden;
     width:50%;
     position:absolute;
-    top:30%;
-    right:20%;
-    opacity:0;
+    top:15%;
+    right:25%;
     animation:get_in_clock 0.9s 0s ease forwards;
     img{
         width:100%;
@@ -119,6 +143,21 @@ body{
     100%{transform:translateX(-110%)}
 }
 
+@keyframes slide_to_right{
+    0%{transform:translateX(-100%);opacity:0;}
+    100%{transform:translateX(0%);opacity:1;}
+}
+
+@keyframes fade_out{
+    0%{transform:translateX(0%); opacity:1;}
+    100%{transform:translateX(-100%); opacity:0;}
+}
+
+@keyframes disappear{
+    0%{transform:translateX(0%);opacity:1;}
+    100%{transform:translateX(100%);opacity:0;}
+}
+
 @keyframes get_in_text{
     0%{transform:translateY(-150%);opacity:0;}
     30%{opacity:0;}
@@ -126,7 +165,14 @@ body{
 }
 
 @keyframes get_in_clock{
-    0%{transform:translate(20%,-150%);opacity:0;}
-    30%{opacity:0;}
-    100%{transform:translate(20%,-30%);opacity:1;}
+    0%{transform:translate(25%,-120%);opacity:0;}
+    1%{visibility: visible;}
+    30%{opacity:0;visibility: visible;}
+    100%{transform:translate(25%,-15%);opacity:1;visibility: visible;}
+}
+
+@media screen and(max-width:800px) and (min-height:610px) and (orientation: portrait){
+    #block_screen{
+        display:flex;
+    }
 }

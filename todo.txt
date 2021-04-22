@@ -1,14 +1,15 @@
-DESIGN CHROME
+XX FIX OVERFLOW / ANIMATION TRIGGER
+XX DESIGN CHROME
 
 XX minuteur
 XX -> flèches augmenter le temps
 XX -> input clavier
 XX -> à 0 alerte timeout
 
-chronometre
--> bouton unique marche/arrêt
--> bouton "tour" memorise le temps au click
--> bouton reset
+XX chronometre
+XX -> bouton unique marche/arrêt
+XX -> bouton "tour" memorise le temps au click
+XX -> bouton reset
 
 reveil
 -> input heure 

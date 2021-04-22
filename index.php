@@ -21,11 +21,16 @@
 </head>
 
 <body>
+    <div id="block_screen">
+        <img src="assets/images/rotatedevice.gif">
+    </div>
     <section id="giant_text">
         <p class="giant">Ceci est</p>
         <p id="text_twins">
             <span id="text_one">une horloge</span>
         </p>
+    </section>
+    <section id="dynamic_text">
     </section>
     <section id="clock_widget">
         <div id="clock_display">
