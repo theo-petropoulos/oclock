@@ -140,7 +140,7 @@ body {
 #clock_widget #dring_text p {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   font-size: 2vw;
   font-family: 'Orelega One', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   width: -webkit-max-content;

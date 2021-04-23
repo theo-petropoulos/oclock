@@ -6,7 +6,8 @@ window.chrono='';
 window.alarm='';
 window.timer_seconds=window.timer_minutes=window.timer_hours=0;
 window.alarm_seconds=window.alarm_minutes=window.alarm_hours=0;
-window.timer_array=window.alarm_array=[];
+window.timer_array=[];
+window.alarm_array=[];
 window.prevent='none';
 
 //Send exact height for responsive purpose
@@ -30,9 +31,6 @@ $(function() {
     //Display time
     clock();
     setInterval(clock, 1000);
-
-    //Check if an alarm is occurring
-    check_alarm();
 
     //Used to scale map / areas
     $('map').imageMapResize();
@@ -212,18 +210,18 @@ function clog(x){
 }
 
 function button_clock(){
-    currTimerInput='';
+    currTimerInput=currAlarmInput='';
     $("#title").html('Horloge');
-    if(alarm_array.length<1) $("#message").html('Aucun réveil programmé');
-    
+    clock();
+    if(alarm_array.length<1) $("#message").html('Aucune alarme programmée');
+    else $("#message").html("Prochaine alarme : " + get_min_time(alarm_array));
     //ELSE PROCHAINE ALARME DANS XXXXX
 
     check_width($("#message"));
-    clock();
-    setInterval(clock, 1000);
 }
 
 function button_timer(){
+    currAlarmInput='';
     $("#title").html('Minuteur');
     if(timer_seconds==0 && timer_minutes==0 && timer_hours==0){
         $("#message").html('Choisir la durée');
@@ -241,7 +239,7 @@ function button_timer(){
 }
 
 function button_chrono(){
-    currTimerInput='';
+    currTimerInput=currAlarmInput='';
     $("#title").html('Chronomètre');
     $("#message").html('<i class="fas fa-caret-left"></i> Enregistrer le temps | <i class="far fa-circle"></i> Marche / Arrêt | <i class="fas fa-caret-right"></i> Afficher les temps');
     if(timer_array.length>0 && prevent!=='empty_chrono'){
@@ -264,7 +262,7 @@ function button_chrono(){
 function button_alarm(){
     currTimerInput='';
     $("#title").html('Réveil');
-    if(alarm_seconds==0 && alarm_minutes==0 && alarm_hours==0 && alarm!=='set'){
+    if(alarm_seconds==0 && alarm_minutes==0 && alarm_hours==0 && alarm!=='set' && $(currAlarmInput).attr('id')!==$("#message").attr('id')){
         $("#message").html('Choisir l\'heure');
         if(currAlarmInput==''){
             currAlarmInput=$('#hours');
@@ -275,6 +273,7 @@ function button_alarm(){
     else if(alarm=='set'){
         alarm='';
         $("#alarm_text").prepend("<p class='alarm_ps' id='alarm_p" + alarm_array.length + "'>" + alarm_hours + ":" + alarm_minutes + ":" + alarm_seconds + "</p>");
+        if(alarm_hours==h && alarm_minutes==m) $("#alarm_p" + alarm_array.length).addClass('done');
         $(".alarm_ps").each(function(){
             $(this).animate({
                 top: '+=2vw',
@@ -351,16 +350,13 @@ function button_circle(){
             }
             else if($(currAlarmInput).attr('id')==$('#minutes').attr('id')){
                 if($('#minutes').html().length==1) $('#minutes').prepend('0');
-                currAlarmInput=$('#seconds');
-            }
-            else if($(currAlarmInput).attr('id')==$('#seconds').attr('id')){
-                if($('#seconds').html().length==1) $('#seconds').prepend('0');
+                $("#message").html("_");
+                $("#message").css("animation","wink 0.8s 0s linear infinite alternate-reverse");
                 currAlarmInput=$('#message');
+                $('#seconds').html('00');
                 alarm_seconds=$('#seconds').html();
                 alarm_minutes=$('#minutes').html();
                 alarm_hours=$('#hours').html();
-                $("#message").html("_");
-                $("#message").css("animation","wink 0.8s 0s linear infinite alternate-reverse");
             }
             else if($(currAlarmInput).attr('id')==$("#message").attr('id')){
                 message=$("#message").html().replace('_','');
@@ -373,6 +369,7 @@ function button_circle(){
                 }
                 alarm='set';
                 alarm_array.push(alarm_object);
+                check_alarm();
             }
             button_alarm();
             break;
@@ -412,6 +409,7 @@ function button_arrow(dir){
             button_timer();
             break;
         case 'chrono':
+            
             if(chrono=='start' || chrono=='paused'){
                 if(dir=='left'){
                     if(timer_array.length>6) $("#message").html("La mémoire est pleine.");
@@ -436,7 +434,6 @@ function button_arrow(dir){
 }
 
 function clock(){
-    if(currClock!=='clock') return 0;
     var date=new Date();
     h=date.getHours();
     if(h<10) h='0' + h;
@@ -447,10 +444,11 @@ function clock(){
     s=date.getSeconds();
     if(s<10) s= '0' + s;
 
-    $("#hours").html(h);
-    $("#minutes").html(m);
-    $("#seconds").html(s);
-    return 0;
+    if(currClock=='clock'){
+        $("#hours").html(h);
+        $("#minutes").html(m);
+        $("#seconds").html(s);
+    }
 }
 
 function countdown(){
@@ -468,7 +466,7 @@ function countdown(){
                 if(timer_minutes<0 && timer_hours>0){
                     timer_minutes=59;
                     timer_hours--;
-                    if(hours<10 && hours>=0) timer_hours='0' + timer_hours;
+                    if(timer_hours<10 && timer_hours>=0) timer_hours='0' + timer_hours;
                 }
             } else{
                 timer_seconds=timer_minutes=timer_hours='00';
@@ -577,20 +575,40 @@ function check_width(text){
 }
 
 function check_alarm(){
-    if(alarm_array.length>0){   
+    if(alarm_array.length>0){
         $(alarm_array).each(function(index, value){
-            if(value['hours']==h && value['status']=='upcoming'){
-                if(value['minutes']==m){
-                    $("#dring_text").html("<p>" + value['message'] + "</p>");
-                    $("#dring_text p").animate({
-                        left:"-=15vw"
-                    });
-                    value['status']='done';
-                    $("#alarm_p" + (index+1)).addClass('done');
+            if(value['status']=='upcoming'){
+                if(value['hours']==h){
+                    if(value['minutes']==m){
+                        $("#dring_text").html("<p>" + value['message'] + "</p>");
+                        $("#dring_text p").animate({
+                            right:"+=11vw"
+                        });
+                        setTimeout(() => {
+                            $("#dring_text p").css("animation", "disappear 0.8s 0s ease forwards");
+                            setTimeout(() => {
+                                $("#dring_text").empty();
+                            }, 6000);
+                        }, 30000);
+                        value['status']='done';
+                        $("#alarm_p" + (index+1)).addClass('done');
+                        $("#message").html(value['message']);
+                    }
                 }
             }
         });
+        setTimeout(check_alarm, 1000);
     }
-    setTimeout(check_alarm, 1000);
-    return 0;
+}
+
+function get_min_time(array){
+    var temp,distance,distance2;
+    $(array).each(function(index, value){
+        let strvalue=value['hours'] + ":" + value['minutes'] + ":00";
+        let strtime=h + ":" + m + ":00";
+        if(temp===undefined) temp=strvalue;
+        if(strvalue > strtime && (strvalue < temp || temp < strtime) ) temp=strvalue;
+        else if(strvalue < temp && strvalue < strtime && temp < strtime) temp=strvalue;
+    });
+    return temp;
 }
