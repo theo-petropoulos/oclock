@@ -102,6 +102,7 @@ $(function() {
                             }, 200);
                         }, index*90);
                     });
+                    chrono='';
                     chrono_seconds=chrono_minutes=chrono_hours='00';
                 }
                 //Hide stored timestamps if current mode isn't chrono
@@ -113,7 +114,7 @@ $(function() {
                     });
                 }
                 //Hide alarms if current mode isn't alarm
-                if(currClock!=='alarm' && alarm_array.length>0){
+                if(currClock!=='alarm' && alarm_array.length>0 && tempClock=='alarm'){
                     $('.alarm_ps').each(function(){
                         $(this).attr('prevtop', $(this).css('top')).attr('prevright', $(this).css('right'));
                         $(this).animate({
@@ -213,10 +214,8 @@ function button_clock(){
     currTimerInput=currAlarmInput='';
     $("#title").html('Horloge');
     clock();
-    if(alarm_array.length<1) $("#message").html('Aucune alarme programmée');
+    if(alarm_array.length<1 || get_min_time(alarm_array)==0) $("#message").html('Aucune alarme programmée');
     else $("#message").html("Prochaine alarme : " + get_min_time(alarm_array));
-    //ELSE PROCHAINE ALARME DANS XXXXX
-
     check_width($("#message"));
 }
 
@@ -392,24 +391,10 @@ function button_arrow(dir){
 
             break;
         case 'timer':
-            if(counter!=='start' && counter!=='paused'){
-                if(dir=='left'){
-                    $(currTimerInput).html(parseInt($(currTimerInput).html())-1);
-                    if($(currTimerInput).attr('id')=='hours' && $(currTimerInput).html()<0) $(currTimerInput).html(23);
-                    if($(currTimerInput).html()<10 && $(currTimerInput).html()>=0) $(currTimerInput).html("0" + $(currTimerInput).html());
-                    if($(currTimerInput).html()<0) $(currTimerInput).html(59);
-                }
-                else if(dir=='right'){
-                    $(currTimerInput).html(parseInt($(currTimerInput).html())+1);
-                    if($(currTimerInput).html()<10 && $(currTimerInput).html()>=0) $(currTimerInput).html("0" + $(currTimerInput).html());
-                    if($(currTimerInput).attr('id')=='hours' && $(currTimerInput).html()>23) $(currTimerInput).html("00");
-                    if($(currTimerInput).html()>59) $(currTimerInput).html("00");
-                }
-            }
+            if(counter!=='start' && counter!=='paused') masomenos1($(currTimerInput), dir);
             button_timer();
             break;
         case 'chrono':
-            
             if(chrono=='start' || chrono=='paused'){
                 if(dir=='left'){
                     if(timer_array.length>6) $("#message").html("La mémoire est pleine.");
@@ -426,7 +411,7 @@ function button_arrow(dir){
             }
             break;
         case 'alarm':
-        
+            if($(currAlarmInput).attr('id')!==$("#message").attr('id')) masomenos1($(currAlarmInput), dir);
             break;
         default:break;
     }
@@ -604,11 +589,29 @@ function check_alarm(){
 function get_min_time(array){
     var temp,distance,distance2;
     $(array).each(function(index, value){
-        let strvalue=value['hours'] + ":" + value['minutes'] + ":00";
-        let strtime=h + ":" + m + ":00";
-        if(temp===undefined) temp=strvalue;
-        if(strvalue > strtime && (strvalue < temp || temp < strtime) ) temp=strvalue;
-        else if(strvalue < temp && strvalue < strtime && temp < strtime) temp=strvalue;
+        if(value['status']=='upcoming'){
+            let strvalue=value['hours'] + ":" + value['minutes'] + ":00";
+            let strtime=h + ":" + m + ":00";
+            if(temp===undefined) temp=strvalue;
+            if(strvalue > strtime && (strvalue < temp || temp < strtime) ) temp=strvalue;
+            else if(strvalue < temp && strvalue < strtime && temp < strtime) temp=strvalue;
+        }
     });
-    return temp;
+    if(temp!==undefined) return temp;
+    else return 0;
+}
+
+function masomenos1(input, dir){
+    if(dir=='left'){
+        input.html(parseInt(input.html())-1);
+        if(input.attr('id')=='hours' && input.html()<0) input.html(23);
+        if(input.html()<10 && input.html()>=0) input.html("0" + input.html());
+        if(input.html()<0) input.html(59);
+    }
+    else if(dir=='right'){
+        input.html(parseInt(input.html())+1);
+        if(input.html()<10 && input.html()>=0) input.html("0" + input.html());
+        if(input.attr('id')=='hours' && input.html()>23) input.html("00");
+        if(input.html()>59) input.html("00");
+    }
 }
