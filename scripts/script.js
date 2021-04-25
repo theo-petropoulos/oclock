@@ -45,6 +45,38 @@ $(function() {
         $(this).css('cursor','initial');
     });
 
+    $(document).on('click', '.alarm_ps', function(){
+        let id=$(this).attr('id').replace('alarm_p','');
+        if($(this).find('span').length < 1){
+            $(this).append('<span id="alarm_span_'+id+'">' + alarm_array[id-1].message + '</span>')
+            $(this).append('<button id="alarm_button_'+id+'" class="alarm_button"><i class="fas fa-times"></i></button>')
+            $("#alarm_span_" + id).animate({
+                right:"105%",
+                opacity:"1"
+            })
+            $("#alarm_button_" + id).animate({
+                right:"-15%",
+                opacity:"1"
+            })
+        }
+        else{
+            $("#alarm_span_" + id).add($("#alarm_button_" + id)).animate({
+                right:"50%",
+                opacity:"0"
+            })
+            setTimeout(() => {
+                $("#alarm_span_" + id).add($("#alarm_button_" + id)).remove()
+            }, 200);
+        }
+    })
+
+    $(document).on('click', '.alarm_button', function(){
+        let id=$(this).attr('id').replace('alarm_button_','');
+        $("#alarm_p" + id).remove()
+        alarm_array.splice(id-1, 1)
+        clog(alarm_array)
+    })
+
     //Functions depending on user's actions
     $('area').not('.clock_screen').on({
         'mouseenter':function(e){
@@ -116,19 +148,23 @@ $(function() {
                 //Hide alarms if current mode isn't alarm
                 if(currClock!=='alarm' && alarm_array.length>0 && tempClock=='alarm'){
                     $('.alarm_ps').each(function(){
-                        $(this).attr('prevtop', $(this).css('top')).attr('prevright', $(this).css('right'));
                         $(this).animate({
                             top:'0',
                             right:'0'
                         });
                     });
+                    $('#alarm_text').css("z-index", "initial")
                 } else if(currClock=='alarm' && alarm_array.length>0){
-                    $('.alarm_ps').each(function(){
+                    $('.alarm_ps').each(function(index){
+                        index+=1;
                         $(this).animate({
-                            top:$(this).attr('prevtop'),
-                            right:$(this).attr('prevright')
+                            top:2*index + 'vw',
+                            right: 2*index + 'vw'
                         });
                     });
+                    setTimeout(() => {
+                        $('#alarm_text').css("z-index", "3")
+                    }, 300);
                 }
             }
             //If the button is a nav button

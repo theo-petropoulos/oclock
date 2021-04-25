@@ -115,6 +115,7 @@ body {
   bottom: 28%;
   -webkit-transform: skew(-55deg, 9deg) translate(35%, 28%);
           transform: skew(-55deg, 9deg) translate(35%, 28%);
+  z-index: 3;
 }
 
 #clock_widget #alarm_text p {
@@ -126,6 +127,41 @@ body {
   color: #acacac;
   font-family: 'Trispace', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   opacity: 0;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+
+#clock_widget #alarm_text p:hover {
+  cursor: pointer;
+}
+
+#clock_widget #alarm_text p span {
+  position: absolute;
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  font-size: 0.8vw;
+  top: 0;
+  opacity: 0;
+  right: 50%;
+}
+
+#clock_widget #alarm_text p button {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  background: transparent;
+  color: #acacac;
+  border: none;
+  outline: none;
+  opacity: 0;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+#clock_widget #alarm_text p button:hover {
+  cursor: pointer;
 }
 
 #clock_widget #dring_text {

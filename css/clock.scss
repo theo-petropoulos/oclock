@@ -85,6 +85,7 @@ body{
         right:35%;
         bottom:28%;
         transform:skew(-55deg,9deg) translate(35%,28%);
+        z-index:3;
         p{
             position:absolute;
             top:0;
@@ -94,6 +95,32 @@ body{
             color:#acacac;
             font-family:'Trispace', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             opacity:0;
+            width:max-content;
+            &:hover{
+                cursor:pointer;
+            }
+            span{
+                position:absolute;
+                width: max-content;
+                font-size:0.8vw;
+                top:0;
+                opacity:0;
+                right:50%;
+            }
+            button{
+                position:absolute;
+                top:50%;
+                right:50%;
+                background:transparent;
+                color:#acacac;
+                border:none;
+                outline:none;
+                opacity:0;
+                transform:translateY(-50%);
+                &:hover{
+                    cursor:pointer;
+                }
+            }
         }
     }
     #dring_text{
