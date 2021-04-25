@@ -74,10 +74,20 @@ $(function() {
         let id=$(this).attr('id').replace('alarm_button_','');
         $("#alarm_p" + id).remove()
         alarm_array.splice(id-1, 1)
-        if( $("#alarm_p" + (+id + 1)).length>0 ){
-            clog('if')
-            while( $("#alarm_p" + (+id + 1)).length>0 ){
-                clog('while')
+        if( $("#alarm_p" + (+id - 1)).length ){
+            $('.alarm_ps').each(function(){
+                if($(this).attr('id').replace('alarm_p','') > id){
+                    clog('if')
+                    return 1;
+                }
+                $(this).animate({
+                    top:"-=2vw",
+                    right:"-=2vw"
+                })
+            })
+        }
+        if( $("#alarm_p" + (+id + 1)).length ){
+            while( $("#alarm_p" + (+id + 1)).length ){
                 $("#alarm_p" + (+ id + 1)).attr('id', "alarm_p" + id)
                 id++;
             }
