@@ -74,7 +74,14 @@ $(function() {
         let id=$(this).attr('id').replace('alarm_button_','');
         $("#alarm_p" + id).remove()
         alarm_array.splice(id-1, 1)
-        clog(alarm_array)
+        if( $("#alarm_p" + (+id + 1)).length>0 ){
+            clog('if')
+            while( $("#alarm_p" + (+id + 1)).length>0 ){
+                clog('while')
+                $("#alarm_p" + (+ id + 1)).attr('id', "alarm_p" + id)
+                id++;
+            }
+        }
     })
 
     //Functions depending on user's actions

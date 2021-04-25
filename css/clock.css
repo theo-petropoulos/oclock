@@ -164,6 +164,10 @@ body {
   cursor: pointer;
 }
 
+#clock_widget #alarm_text p button i {
+  font-size: calc(0.8vw);
+}
+
 #clock_widget #dring_text {
   position: absolute;
   top: 20%;
